@@ -3,346 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kunalfruitsall - Buy & Sell Fresh Fruits</title>
+    <title>Kunalfruitsall - Fresh Fruits</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-        body { background: linear-gradient(135deg, #e8f5e9 0%, #fff3e0 100%); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background: #f5f5f5; }
         
-        /* Header */
-        header {
-            background: linear-gradient(to right, #11998e, #38ef7d);
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .logo { font-size: 1.8rem; font-weight: bold; text-transform: uppercase; }
-        nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: 500; }
-        .cart-btn { background: white; color: #11998e; padding: 8px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+        header { background: #11998e; padding: 15px; color: white; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: bold; }
         
-        /* Hero */
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=1000');
-            background-size: cover;
-            background-position: center;
-            height: 60vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-        }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 15px; }
-        .hero p { font-size: 1.3rem; margin-bottom: 20px; }
+        .hero { background: url('https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=800'); background-size: cover; height: 40vh; display: flex; align-items: center; justify-content: center; color: white; text-align: center; }
+        .hero h1 { font-size: 2rem; text-shadow: 2px 2px 4px black; }
         
-        /* Buy/Sell Tabs */
-        .tabs { display: flex; justify-content: center; gap: 20px; padding: 30px; }
-        .tab-btn {
-            padding: 15px 40px;
-            font-size: 1.2rem;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .tab-buy { background: #11998e; color: white; }
-        .tab-sell { background: #ff6b6b; color: white; }
-        .tab-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
+        .container { padding: 20px; max-width: 1200px; margin: 0 auto; }
+        .title { text-align: center; color: #333; margin-bottom: 20px; }
         
-        /* Products Grid */
-        .container { padding: 20px 8%; }
-        .section-title { text-align: center; margin-bottom: 30px; color: #333; font-size: 2rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
         
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-        }
+        .card { background: white; border-radius: 15px; padding: 15px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+        .card img { width: 100%; height: 150px; object-fit: cover; border-radius: 10px; }
+        .card h3 { color: #333; margin: 10px 0 5px; }
+        .card .price { color: #11998e; font-size: 1.3rem; font-weight: bold; }
         
-        .card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
-            transition: 0.3s;
-        }
-        .card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .btn-buy { background: #11998e; color: white; border: none; padding: 12px 30px; border-radius: 25px; font-size: 1rem; font-weight: bold; cursor: pointer; width: 100%; }
+        .btn-buy:hover { background: #0d806d; }
         
-        .card-img {
-            height: 180px;
-            background: #eee;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        .card-img img { width: 100%; height: 100%; object-fit: cover; }
+        .address { background: white; padding: 20px; border-radius: 15px; margin: 20px 0; text-align: center; }
+        .address h2 { color: #11998e; margin-bottom: 10px; }
+        .address p { color: #555; line-height: 1.8; }
         
-        .card-body { padding: 20px; }
-        .card-body h3 { color: #333; margin-bottom: 5px; font-size: 1.3rem; }
-        .card-body .stock { color: #27ae60; font-size: 0.9rem; margin-bottom: 10px; }
-        .card-body .price { color: #11998e; font-size: 1.5rem; font-weight: bold; margin: 10px 0; }
+        .payment { background: white; padding: 25px; border-radius: 15px; margin: 20px 0; text-align: center; }
+        .payment h2 { color: #11998e; margin-bottom: 15px; }
+        .upi-box { border: 2px dashed #11998e; padding: 20px; border-radius: 10px; display: inline-block; }
+        .upi-id { font-size: 1.5rem; color: #333; font-weight: bold; }
         
-        .btn-group { display: flex; gap: 10px; }
-        .btn-buy {
-            background: #11998e;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            flex: 1;
-            font-size: 1rem;
-            font-weight: bold;
-        }
-        .btn-sell {
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            flex: 1;
-            font-size: 1rem;
-            font-weight: bold;
-        }
+        .contact { background: white; padding: 20px; border-radius: 15px; margin: 20px 0; text-align: center; }
+        .contact h2 { color: #11998e; }
         
-        /* Sell Form (Hidden by default) */
-        .sell-section { display: none; background: white; padding: 30px; border-radius: 20px; margin: 20px 0; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-group input, .form-group select { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem; }
-        .form-btn { background: #ff6b6b; color: white; border: none; padding: 15px 40px; border-radius: 10px; cursor: pointer; font-size: 1.1rem; font-weight: bold; }
-        
-        /* Contact */
-        .contact { background: white; padding: 40px; text-align: center; border-radius: 20px; margin: 30px 0; }
-        .contact p { margin: 10px 0; font-size: 1.1rem; }
-        
-        footer {
-            background: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 25px;
-            margin-top: 40px;
-        }
+        footer { background: #333; color: white; text-align: center; padding: 15px; margin-top: 30px; }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">🥝 Kunalfruitsall</div>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#buy">Buy Fruits</a>
-            <a href="#sell">Sell Fruits</a>
-            <a href="#contact">Contact</a>
-        </nav>
-        <div class="cart-btn">🛒 Cart: ₹<span id="total">0</span></div>
-    </header>
+<header>
+    <div class="logo">🥝 Kunalfruitsall</div>
+    <div>🛒 Cart: ₹<span id="total">0</span></div>
+</header>
 
-    <section class="hero" id="home">
-        <div>
-            <h1>🥭 Welcome to Kunalfruitsall</h1>
-            <p>Buy Fresh Fruits • Sell Your Fruits • Best Deals</p>
-            <p>Owner: Kunal Saraswat</p>
-        </div>
-    </section>
-
-    <!-- Buy/Sell Tab Buttons -->
-    <div class="tabs">
-        <button class="tab-btn tab-buy" onclick="showBuy()">🛒 BUY FRUITS</button>
-        <button class="tab-btn tab-sell" onclick="showSell()">💰 SELL FRUITS</button>
+<div class="hero">
+    <div>
+        <h1>🥭 Welcome to Kunalfruitsall</h1>
+        <p>Owner: Kunal Saraswat</p>
     </div>
+</div>
 
-    <!-- BUY Section -->
-    <section class="container" id="buy">
-        <h2 class="section-title">🍎 Fresh Fruits Available</h2>
-        <div class="grid">
-            
-            <div class="card">
-                <div class="card-img"><img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cde7?w=400" alt="Apple"></div>
-                <div class="card-body">
-                    <h3>Red Apple</h3>
-                    <p class="stock">✅ In Stock (50kg available)</p>
-                    <p class="price">₹150/kg</p>
-                    <div class="btn-group">
-                        <button class="btn-buy" onclick="addToCart(150, 'Red Apple')">BUY NOW</button>
-                        <button class="btn-sell" onclick="showSell()">SELL</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img"><img src="https://images.unsplash.com/photo-1553279768-865429fa0078?w=400" alt="Mango"></div>
-                <div class="card-body">
-                    <h3>Alphonso Mango</h3>
-                    <p class="stock">✅ In Stock (100kg available)</p>
-                    <p class="price">₹250/kg</p>
-                    <div class="btn-group">
-                        <button class="btn-buy" onclick="addToCart(250, 'Alphonso Mango')">BUY NOW</button>
-                        <button class="btn-sell" onclick="showSell()">SELL</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img"><img src="https://images.unsplash.com/photo-1557844352-761f5095dad3?w=400" alt="Grapes"></div>
-                <div class="card-body">
-                    <h3>Green Grapes</h3>
-                    <p class="stock">✅ In Stock (30kg available)</p>
-                    <p class="price">₹120/kg</p>
-                    <div class="btn-group">
-                        <button class="btn-buy" onclick="addToCart(120, 'Green Grapes')">BUY NOW</button>
-                        <button class="btn-sell" onclick="showSell()">SELL</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img"><img src="https://images.unsplash.com/photo-1582979512210-99b6a53386f9?w=400" alt="Orange"></div>
-                <div class="card-body">
-                    <h3>Orange</h3>
-                    <p class="stock">✅ In Stock (80kg available)</p>
-                    <p class="price">₹80/kg</p>
-                    <div class="btn-group">
-                        <button class="btn-buy" onclick="addToCart(80, 'Orange')">BUY NOW</button>
-                        <button class="btn-sell" onclick="showSell()">SELL</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img"><img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400" alt="Banana"></div>
-                <div class="card-body">
-                    <h3>Banana</h3>
-                    <p class="stock">✅ In Stock (200kg available)</p>
-                    <p class="price">₹50/dozen</p>
-                    <div class="btn-group">
-                        <button class="btn-buy" onclick="addToCart(50, 'Banana')">BUY NOW</button>
-                        <button class="btn-sell" onclick="showSell()">SELL</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img"><img src="https://images.unsplash.com/photo-1590868309235-ea34bed7bd7f9?w=400" alt="Strawberry"></div>
-                <div class="card-body">
-                    <h3>Strawberry</h3>
-                    <p class="stock">✅ In Stock (20 boxes)</p>
-                    <p class="price">₹180/box</p>
-                    <div class="btn-group">
-                        <button class="btn-buy" onclick="addToCart(180, 'Strawberry')">BUY NOW</button>
-                        <button class="btn-sell" onclick="showSell()">SELL</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img"><img src="https://images.unsplash.com/photo-1595855793319-1153e8c29b28?w=400" alt="Pomegranate"></div>
-                <div class="card-body">
-                    <h3>Pomegranate</h3>
-                    <p class="stock">✅ In Stock (40kg available)</p>
-                    <p class="price">₹200/kg</p>
-                    <div class="btn-group">
-                        <button class="btn-buy" onclick="addToCart(200, 'Pomegranate')">BUY NOW</button>
-                        <button class="btn-sell" onclick="showSell()">SELL</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img"><img src="https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=400" alt="Watermelon"></div>
-                <div class="card-body">
-                    <h3>Watermelon</h3>
-                    <p class="stock">✅ In Stock (50 pieces)</p>
-                    <p class="price">₹30/piece</p>
-                    <div class="btn-group">
-                        <button class="btn-buy" onclick="addToCart(30, 'Watermelon')">BUY NOW</button>
-                        <button class="btn-sell" onclick="showSell()">SELL</button>
-                    </div>
-                </div>
-            </div>
-
+<div class="container">
+    <h2 class="title">🍎 Fresh Fruits Available</h2>
+    <div class="grid">
+        
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cde7?w=300" alt="Apple">
+            <h3>Red Apple</h3>
+            <p class="price">₹150/kg</p>
+            <button class="btn-buy" onclick="buyNow(150, 'Red Apple')">🛒 BUY NOW</button>
         </div>
-    </section>
-
-    <!-- SELL Section -->
-    <section class="container" id="sell">
-        <div class="sell-section" id="sellForm" style="display: block;">
-            <h2 class="section-title">💰 Sell Your Fruits to Us</h2>
-            <div class="form-group">
-                <label>Your Name</label>
-                <input type="text" placeholder="Enter your name">
-            </div>
-            <div class="form-group">
-                <label>Phone Number</label>
-                <input type="tel" placeholder="Your mobile number">
-            </div>
-            <div class="form-group">
-                <label>Which Fruit?</label>
-                <select>
-                    <option>Select Fruit</option>
-                    <option>Apple</option>
-                    <option>Mango</option>
-                    <option>Grapes</option>
-                    <option>Orange</option>
-                    <option>Banana</option>
-                    <option>Other</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Quantity (kg)</label>
-                <input type="number" placeholder="How much to sell?">
-            </div>
-            <div class="form-group">
-                <label>Expected Price (₹)</label>
-                <input type="number" placeholder="Your price per kg">
-            </div>
-            <button class="form-btn" onclick="alert('Request Submitted! We will contact you soon.')">📨 Submit Request</button>
+        
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1553279768-865429fa0078?w=300" alt="Mango">
+            <h3>Mango</h3>
+            <p class="price">₹250/kg</p>
+            <button class="btn-buy" onclick="buyNow(250, 'Mango')">🛒 BUY NOW</button>
         </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="container" id="contact">
-        <div class="contact">
-            <h2>📱 Contact Kunalfruitsall</h2>
-            <p><strong>Owner:</strong> Kunal Saraswat</p>
-            <p>📞 Phone: +91 98765 43210</p>
-            <p>💬 WhatsApp: +91 98765 43210</p>
-            <p>📧 Email: kunalfruitsall@gmail.com</p>
-            <p>📍 Address: Main Fruit Market, City Center</p>
+        
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1557844352-761f5095dad3?w=300" alt="Grapes">
+            <h3>Grapes</h3>
+            <p class="price">₹120/kg</p>
+            <button class="btn-buy" onclick="buyNow(120, 'Grapes')">🛒 BUY NOW</button>
         </div>
-    </section>
+        
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1582979512210-99b6a53386f9?w=300" alt="Orange">
+            <h3>Orange</h3>
+            <p class="price">₹80/kg</p>
+            <button class="btn-buy" onclick="buyNow(80, 'Orange')">🛒 BUY NOW</button>
+        </div>
+        
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=300" alt="Banana">
+            <h3>Banana</h3>
+            <p class="price">₹50/dozen</p>
+            <button class="btn-buy" onclick="buyNow(50, 'Banana')">🛒 BUY NOW</button>
+        </div>
+        
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1590868309235-ea34bed7bd7f?w=300" alt="Strawberry">
+            <h3>Strawberry</h3>
+            <p class="price">₹180/box</p>
+            <button class="btn-buy" onclick="buyNow(180, 'Strawberry')">🛒 BUY NOW</button>
+        </div>
+        
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1595855793319-1153e8c29b28?w=300" alt="Pomegranate">
+            <h3>Pomegranate</h3>
+            <p class="price">₹200/kg</p>
+            <button class="btn-buy" onclick="buyNow(200, 'Pomegranate')">🛒 BUY NOW</button>
+        </div>
+        
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=300" alt="Watermelon">
+            <h3>Watermelon</h3>
+            <p class="price">₹30/piece</p>
+            <button class="btn-buy" onclick="buyNow(30, 'Watermelon')">🛒 BUY NOW</button>
+        </div>
+        
+    </div>
+</div>
 
-    <footer>
-        <p>© 2024 Kunalfruitsall | Created by Kunal Saraswat | All Rights Reserved</p>
-    </footer>
+<div class="container">
+    <div class="address">
+        <h2>📍 Our Address</h2>
+        <p><strong>Gaon Mehadipur, Gali No.1</strong></p>
+        <p><strong>Mant, Mathura</strong></p>
+    </div>
+</div>
 
-    <script>
-        let cartTotal = 0;
-        let cartItems = [];
+<div class="container">
+    <div class="payment">
+        <h2>💳 UPI Payment</h2>
+        <p>Aap UPI App se payment kar sakte hain</p>
+        <div class="upi-box">
+            <p>UPI ID:</p>
+            <p class="upi-id">8126630980@ybl</p>
+        </div>
+    </div>
+</div>
 
-        function addToCart(price, itemName) {
-            cartTotal += price;
-            cartItems.push(itemName);
-            document.getElementById('total').innerText = cartTotal;
-            alert(itemName + ' added! Total: ₹' + cartTotal);
-        }
+<div class="container">
+    <div class="contact">
+        <h2>📱 Contact Kunalfruitsall</h2>
+        <p><strong>Owner: Kunal Saraswat</strong></p>
+        <p>📞 +91 8126630980</p>
+        <p>💬 WhatsApp: +91 8126630980</p>
+    </div>
+</div>
 
-        function showBuy() {
-            document.getElementById('buy').scrollIntoView({behavior: 'smooth'});
-        }
+<footer>
+    <p>© 2024 Kunalfruitsall | By Kunal Saraswat</p>
+</footer>
 
-        function showSell() {
-            document.getElementById('sell').scrollIntoView({behavior: 'smooth'});
-        }
-    </script>
+<script>
+    let total = 0;
+    
+    function buyNow(price, itemName) {
+        total += price;
+        document.getElementById('total').innerText = total;
+        
+        let message = 'Hi Kunalfruitsall, I want to buy ' + itemName + ' for ₹' + price;
+        let whatsappUrl = 'https://wa.me/918126630980?text=' + encodeURIComponent(message);
+        
+        alert(itemName + ' added to cart!\nTotal: ₹' + total + '\n\nWhatsApp join karein order ke liye');
+        window.open(whatsappUrl, '_blank');
+    }
+</script>
 
 </body>
-      </html>
+</html>
