@@ -484,9 +484,4 @@
             'fruit': 'We have fresh fruits: 🍎 Apple ₹150/kg, 🥭 Mango ₹250/kg, 🍇 Grapes ₹120/kg, 🍊 Orange ₹80/kg, 🍌 Banana ₹50/dozen, 🍓 Strawberry ₹180/box. Kiska order chahiye?',
             'apple': 'Red Apple - ₹150/kg! Fresh aur tasty hai. Order karna hai? Just BUY button click karein!',
             'mango': 'Alphonso Mango - ₹250/kg! King of fruits! Best quality. Order karein?',
-            'grapes': 'Green Grapes - ₹120/kg! Sweet aur seedless. Order karein?',
-            'orange': 'Orange - ₹80/kg! Vitamin C se bhara. Order karein?',
-            'banana': 'Banana - ₹50/dozen! Daily use ke liye best. Order karein?',
-            'order': 'Order ke liye aap simple click karein BUY button par! Ya WhatsApp kar sakte hain: +91 8126630980 📱',
-            'price': 'Hamari prices: 🍎 Apple ₹150, 🥭 Mango ₹250, 🍇 Grapes ₹120, 🍊 Orange ₹80, 🍌 Banana ₹50, 🍓 Strawberry ₹180. Discount bhi mil sakta hai!',
-            'delivery': 'Delivery available hai! Mant, Mathura area mein free delivery. othe in full Worls information saved 
+            'grapes': 'Green Grapes. other in full Worls information saved
