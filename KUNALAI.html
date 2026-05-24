@@ -40,7 +40,7 @@
         .message.user .bubble { background: #1e1e2e; border: 1px solid #333; margin-left: auto; }
         .message.bot .bubble { background: #141414; border: 1px solid #2a2a2a; }
         .avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; font-weight: bold; }
-        .bot-avatar { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .bot-avatar { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
         .user-avatar { background: #333; }
         .bubble { padding: 14px 18px; border-radius: 16px; font-size: 0.95rem; line-height: 1.7; color: #e0e0e0; max-width: 85%; }
         .typing-indicator { display: none; gap: 12px; max-width: 800px; margin: 0 auto; width: 100%; }
@@ -103,20 +103,11 @@
         <p class="input-note">KUNAL AI galat ya harmful jaankari nahi deta. Sirf helpful answers! 🙏</p>
     </div>
 </div>
-<script type="module">
-import { GoogleGenerativeAI } from 'https://esm.run/@google/generative-ai';
-
-const API_KEY = 'AIzaSyBLIrqcE7C1H6UKaKnb4YsqyRc12Jdtyt4';
-const genAI = new GoogleGenerativeAI(API_KEY);
-const model = genAI.getGenerativeModel({ 
-    model: 'gemini-2.0-flash',
-    systemInstruction: 'Tu KUNAL AI hai — ek powerful, smart aur friendly AI assistant. Tu Hinglish mein baat karta hai (Hindi + English mix). Tu duniya ki har topic pe knowledge rakhta hai — science, history, technology, business, education, health, entertainment, sports, cooking, travel, sab kuch. Tu helpful, accurate aur detailed answers deta hai. Tu harmful, illegal, ya galat cheezein nahi batata. Tu emojis use karta hai. Tu Kunal Saraswat ka banaya hua AI hai jo Mathura, UP se hain.'
-});
-
-let chat = model.startChat({ history: [] });
+<script>
+const API_KEY = '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';
+let messages = [{ role: 'system', content: 'Tu KUNAL AI hai — ek powerful, smart aur friendly AI assistant. Tu Hinglish mein baat karta hai (Hindi + English mix). Tu duniya ki har topic pe knowledge rakhta hai — science, history, technology, business, education, health, entertainment, sports, cooking, travel, sab kuch. Tu helpful, accurate aur detailed answers deta hai. Tu harmful, illegal, ya galat cheezein nahi batata. Tu emojis use karta hai. Tu Kunal Saraswat ka banaya hua AI hai jo Mathura, UP se hain.' }];
 let chatHistory = JSON.parse(localStorage.getItem('kunalai_history') || '[]');
 let currentChatId = null;
-let historyMessages = [];
 
 function loadHistory() {
     const list = document.getElementById('historyList');
@@ -125,34 +116,32 @@ function loadHistory() {
         return;
     }
     list.innerHTML = chatHistory.map((c, i) => `
-        <div class="history-item" onclick="window.loadChat(${i})">
+        <div class="history-item" onclick="loadChat(${i})">
             <span>${c.title}</span>
-            <span class="del-btn" onclick="window.deleteChat(event,${i})">✕</span>
+            <span class="del-btn" onclick="deleteChat(event,${i})">✕</span>
         </div>`).join('');
 }
 
-window.deleteChat = function(e, index) {
+function deleteChat(e, index) {
     e.stopPropagation();
     chatHistory.splice(index, 1);
     localStorage.setItem('kunalai_history', JSON.stringify(chatHistory));
     loadHistory();
-};
+}
 
-window.loadChat = function(index) {
+function loadChat(index) {
     const c = chatHistory[index];
     currentChatId = index;
-    historyMessages = c.messages || [];
+    messages = [...c.messages];
     const chatArea = document.getElementById('chatArea');
     chatArea.innerHTML = '';
-    historyMessages.forEach(m => addBubble(m.text, m.role));
-    chat = model.startChat({ history: historyMessages.map(m => ({ role: m.role === 'bot' ? 'model' : 'user', parts: [{ text: m.text }] })) });
+    messages.filter(m => m.role !== 'system').forEach(m => addBubble(m.content, m.role === 'user' ? 'user' : 'bot'));
     closeSidebar();
-};
+}
 
-window.newChat = function() {
-    historyMessages = [];
+function newChat() {
+    messages = [{ role: 'system', content: 'Tu KUNAL AI hai — ek powerful, smart aur friendly AI assistant. Tu Hinglish mein baat karta hai (Hindi + English mix). Tu duniya ki har topic pe knowledge rakhta hai. Tu helpful, accurate aur detailed answers deta hai. Tu harmful, illegal, ya galat cheezein nahi batata. Tu emojis use karta hai. Tu Kunal Saraswat ka banaya hua AI hai jo Mathura, UP se hain.' }];
     currentChatId = null;
-    chat = model.startChat({ history: [] });
     document.getElementById('chatArea').innerHTML = `<div class="welcome" id="welcome">
         <h2>KUNAL AI</h2>
         <p>Namaste! Main hoon KUNAL AI — Aapka smart assistant!<br>Kuch bhi poochho — main help karunga! 😊</p>
@@ -163,7 +152,7 @@ window.newChat = function() {
             <div class="suggestion-card" onclick="askQuestion('Ek funny joke sunao')"><div class="icon">😂</div><p>Ek funny joke sunao</p></div>
         </div></div>`;
     closeSidebar();
-};
+}
 
 function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('open');
@@ -173,9 +162,6 @@ function closeSidebar() {
     document.getElementById('sidebar').classList.remove('open');
     document.getElementById('overlay').classList.remove('show');
 }
-
-window.toggleSidebar = toggleSidebar;
-window.closeSidebar = closeSidebar;
 
 function addBubble(text, sender) {
     const welcome = document.getElementById('welcome');
@@ -200,20 +186,33 @@ async function sendMessage() {
     input.value = '';
     input.style.height = 'auto';
     addBubble(text, 'user');
-    historyMessages.push({ role: 'user', text });
+    messages.push({ role: 'user', content: text });
     document.getElementById('typing').classList.add('show');
     document.getElementById('chatArea').scrollTop = document.getElementById('chatArea').scrollHeight;
     try {
-        const result = await chat.sendMessage(text);
-        const reply = result.response.text();
+        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${API_KEY}`,
+                'HTTP-Referer': 'https://saraswatpankaj259-sudo.github.io',
+                'X-Title': 'KUNAL AI'
+            },
+            body: JSON.stringify({
+                model: 'meta-llama/llama-3.1-8b-instruct:free',
+                messages: messages
+            })
+        });
+        const data = await response.json();
         document.getElementById('typing').classList.remove('show');
+        const reply = data.choices[0].message.content;
+        messages.push({ role: 'assistant', content: reply });
         addBubble(reply, 'bot');
-        historyMessages.push({ role: 'bot', text: reply });
         const title = text.length > 30 ? text.substring(0, 30) + '...' : text;
         if (currentChatId !== null) {
-            chatHistory[currentChatId].messages = [...historyMessages];
+            chatHistory[currentChatId].messages = [...messages];
         } else {
-            chatHistory.unshift({ title, messages: [...historyMessages] });
+            chatHistory.unshift({ title, messages: [...messages] });
             currentChatId = 0;
             if (chatHistory.length > 20) chatHistory.pop();
         }
@@ -221,26 +220,22 @@ async function sendMessage() {
         loadHistory();
     } catch(err) {
         document.getElementById('typing').classList.remove('show');
-        addBubble('Kuch problem aa gayi! Thodi der baad try karo. 😅', 'bot');
-        console.error(err);
+        addBubble('Kuch problem aa gayi! Thodi der baad try karo.', 'bot');
     }
     btn.disabled = false;
 }
 
-window.askQuestion = function(q) {
+function askQuestion(q) {
     document.getElementById('userInput').value = q;
     sendMessage();
-};
-window.sendMessage = sendMessage;
-
-window.handleKey = function(e) {
+}
+function handleKey(e) {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-};
-window.autoResize = function(el) {
+}
+function autoResize(el) {
     el.style.height = 'auto';
     el.style.height = el.scrollHeight + 'px';
-};
-
+}
 loadHistory();
 </script>
 </body>
