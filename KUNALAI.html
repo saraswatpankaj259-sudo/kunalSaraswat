@@ -6,129 +6,43 @@
     <title>KUNAL AI</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-        
         body { background: #0a0a0a; color: #fafafa; height: 100vh; display: flex; overflow: hidden; }
-
-        /* Sidebar */
-        .sidebar {
-            width: 260px;
-            background: #111111;
-            display: flex;
-            flex-direction: column;
-            padding: 15px;
-            border-right: 1px solid #2a2a2a;
-            transition: 0.3s;
-            position: fixed;
-            left: -260px;
-            top: 0;
-            height: 100vh;
-            z-index: 1000;
-        }
+        .sidebar { width: 260px; background: #111111; display: flex; flex-direction: column; padding: 15px; border-right: 1px solid #2a2a2a; transition: 0.3s; position: fixed; left: -260px; top: 0; height: 100vh; z-index: 1000; }
         .sidebar.open { left: 0; }
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 999;
-        }
+        .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
         .sidebar-overlay.show { display: block; }
-
-        .new-chat-btn {
-            background: #1e1e1e;
-            border: 1px solid #333;
-            color: white;
-            padding: 12px 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            transition: 0.2s;
-        }
+        .new-chat-btn { background: #1e1e1e; border: 1px solid #333; color: white; padding: 12px 15px; border-radius: 10px; cursor: pointer; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; transition: 0.2s; }
         .new-chat-btn:hover { background: #2a2a2a; }
-
         .history-title { color: #666; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-        
         .history-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 5px; }
-        .history-item {
-            padding: 10px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.88rem;
-            color: #ccc;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            transition: 0.2s;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .history-item { padding: 10px 12px; border-radius: 8px; cursor: pointer; font-size: 0.88rem; color: #ccc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: 0.2s; display: flex; justify-content: space-between; align-items: center; }
         .history-item:hover { background: #1e1e1e; }
         .history-item .del-btn { color: #666; font-size: 0.8rem; cursor: pointer; padding: 2px 5px; }
         .history-item .del-btn:hover { color: #ff6b6b; }
-
         .sidebar-bottom { border-top: 1px solid #2a2a2a; padding-top: 15px; margin-top: 10px; }
         .sidebar-bottom p { color: #555; font-size: 0.8rem; text-align: center; }
-
-        /* Main */
-        .main { flex: 1; display: flex; flex-direction: column; margin-left: 0; width: 100%; }
-
-        /* Header */
-        .header {
-            background: #111;
-            border-bottom: 1px solid #2a2a2a;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+        .main { flex: 1; display: flex; flex-direction: column; width: 100%; }
+        .header { background: #111; border-bottom: 1px solid #2a2a2a; padding: 15px 20px; display: flex; align-items: center; gap: 15px; position: sticky; top: 0; z-index: 100; }
         .menu-btn { background: none; border: none; color: white; font-size: 1.4rem; cursor: pointer; padding: 5px; }
         .header h1 { font-size: 1.3rem; font-weight: bold; color: white; }
-        .header-badge { background: #1a1a2e; color: #667eea; border: 1px solid #667eea; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; margin-left: auto; }
-
-        /* Chat Area */
+        .header-badge { background: #1a1a2e; color: #4ade80; border: 1px solid #4ade80; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; margin-left: auto; }
         .chat-area { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
-
-        /* Welcome Screen */
         .welcome { text-align: center; margin: auto; padding: 40px 20px; }
-        .welcome .ai-icon { font-size: 4rem; margin-bottom: 20px; }
         .welcome h2 { font-size: 2rem; margin-bottom: 10px; color: white; }
         .welcome p { color: #777; font-size: 1rem; margin-bottom: 30px; }
         .suggestion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 400px; margin: 0 auto; }
-        .suggestion-card {
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 12px;
-            padding: 15px;
-            cursor: pointer;
-            text-align: left;
-            transition: 0.2s;
-        }
+        .suggestion-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px; padding: 15px; cursor: pointer; text-align: left; transition: 0.2s; }
         .suggestion-card:hover { background: #222; border-color: #444; }
         .suggestion-card .icon { font-size: 1.5rem; margin-bottom: 8px; }
         .suggestion-card p { color: #ccc; font-size: 0.85rem; line-height: 1.4; }
-
-        /* Messages */
         .message { display: flex; gap: 12px; max-width: 800px; width: 100%; margin: 0 auto; }
         .message.user { flex-direction: row-reverse; }
         .message.user .bubble { background: #1e1e2e; border: 1px solid #333; margin-left: auto; }
         .message.bot .bubble { background: #141414; border: 1px solid #2a2a2a; }
-
-        .avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+        .avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; font-weight: bold; }
         .bot-avatar { background: linear-gradient(135deg, #667eea, #764ba2); }
         .user-avatar { background: #333; }
-
         .bubble { padding: 14px 18px; border-radius: 16px; font-size: 0.95rem; line-height: 1.7; color: #e0e0e0; max-width: 85%; }
-
-        /* Typing */
         .typing-indicator { display: none; gap: 12px; max-width: 800px; margin: 0 auto; width: 100%; }
         .typing-indicator.show { display: flex; }
         .typing-bubble { background: #141414; border: 1px solid #2a2a2a; padding: 14px 18px; border-radius: 16px; }
@@ -137,8 +51,6 @@
         .dots span:nth-child(2) { animation-delay: 0.2s; }
         .dots span:nth-child(3) { animation-delay: 0.4s; }
         @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-8px)} }
-
-        /* Input */
         .input-section { padding: 15px 20px; background: #0a0a0a; border-top: 1px solid #1a1a1a; }
         .input-wrapper { max-width: 800px; margin: 0 auto; background: #1a1a1a; border: 1px solid #333; border-radius: 16px; display: flex; align-items: flex-end; gap: 10px; padding: 12px 15px; transition: 0.3s; }
         .input-wrapper:focus-within { border-color: #667eea; }
@@ -151,15 +63,9 @@
     </style>
 </head>
 <body>
-
-<!-- Sidebar Overlay -->
 <div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
-
-<!-- Sidebar -->
 <div class="sidebar" id="sidebar">
-    <button class="new-chat-btn" onclick="newChat()">
-        ✏️ New Chat
-    </button>
+    <button class="new-chat-btn" onclick="newChat()">✏️ New Chat</button>
     <p class="history-title">Recent Chats</p>
     <div class="history-list" id="historyList">
         <p style="color:#444; font-size:0.85rem; text-align:center; margin-top:20px;">Abhi koi chat nahi hai</p>
@@ -169,48 +75,28 @@
         <p style="margin-top:5px;">by Kunal Saraswat</p>
     </div>
 </div>
-
-<!-- Main -->
 <div class="main">
     <div class="header">
         <button class="menu-btn" onclick="toggleSidebar()">☰</button>
         <h1>KUNAL AI</h1>
         <span class="header-badge">● Online</span>
     </div>
-
     <div class="chat-area" id="chatArea">
         <div class="welcome" id="welcome">
-            
             <h2>KUNAL AI</h2>
             <p>Namaste! Main hoon KUNAL AI — Aapka smart assistant!<br>Kuch bhi poochho — main help karunga! 😊</p>
             <div class="suggestion-grid">
-                <div class="suggestion-card" onclick="askQuestion('YouTube channel kaise start karein?')">
-                    <div class="icon">📺</div>
-                    <p>YouTube channel kaise start karein?</p>
-                </div>
-                <div class="suggestion-card" onclick="askQuestion('Padhai mein focus kaise karein?')">
-                    <div class="icon">📚</div>
-                    <p>Padhai mein focus kaise karein?</p>
-                </div>
-                <div class="suggestion-card" onclick="askQuestion('Business idea do mujhe')">
-                    <div class="icon">💡</div>
-                    <p>Business idea do mujhe</p>
-                </div>
-                <div class="suggestion-card" onclick="askQuestion('Ek funny joke sunao')">
-                    <div class="icon">😂</div>
-                    <p>Ek funny joke sunao</p>
-                </div>
+                <div class="suggestion-card" onclick="askQuestion('YouTube channel kaise start karein?')"><div class="icon">📺</div><p>YouTube channel kaise start karein?</p></div>
+                <div class="suggestion-card" onclick="askQuestion('Padhai mein focus kaise karein?')"><div class="icon">📚</div><p>Padhai mein focus kaise karein?</p></div>
+                <div class="suggestion-card" onclick="askQuestion('Business idea do mujhe')"><div class="icon">💡</div><p>Business idea do mujhe</p></div>
+                <div class="suggestion-card" onclick="askQuestion('Ek funny joke sunao')"><div class="icon">😂</div><p>Ek funny joke sunao</p></div>
             </div>
         </div>
     </div>
-
     <div class="typing-indicator" id="typing">
         <div class="avatar bot-avatar">K</div>
-        <div class="typing-bubble">
-            <div class="dots"><span></span><span></span><span></span></div>
-        </div>
+        <div class="typing-bubble"><div class="dots"><span></span><span></span><span></span></div></div>
     </div>
-
     <div class="input-section">
         <div class="input-wrapper">
             <textarea id="userInput" placeholder="KUNAL AI se kuch bhi poochho..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
@@ -219,13 +105,12 @@
         <p class="input-note">KUNAL AI galat ya harmful jaankari nahi deta. Sirf helpful answers! 🙏</p>
     </div>
 </div>
-
 <script>
+const API_KEY = 'AIzaSyBLIrqcE7C1H6UKaKnb4YsqyRc12Jdtyt4';
 let messages = [];
 let chatHistory = JSON.parse(localStorage.getItem('kunalai_history') || '[]');
 let currentChatId = null;
 
-// Load history
 function loadHistory() {
     const list = document.getElementById('historyList');
     if (chatHistory.length === 0) {
@@ -251,10 +136,9 @@ function loadChat(index) {
     const chat = chatHistory[index];
     messages = [...chat.messages];
     currentChatId = index;
-    document.getElementById('welcome').style.display = 'none';
     const chatArea = document.getElementById('chatArea');
     chatArea.innerHTML = '';
-    messages.forEach(m => addBubble(m.content, m.role === 'user' ? 'user' : 'bot'));
+    messages.forEach(m => addBubble(m.parts[0].text, m.role === 'user' ? 'user' : 'bot'));
     closeSidebar();
 }
 
@@ -263,7 +147,6 @@ function newChat() {
     currentChatId = null;
     const chatArea = document.getElementById('chatArea');
     chatArea.innerHTML = `<div class="welcome" id="welcome">
-        
         <h2>KUNAL AI</h2>
         <p>Namaste! Main hoon KUNAL AI — Aapka smart assistant!<br>Kuch bhi poochho — main help karunga! 😊</p>
         <div class="suggestion-grid">
@@ -291,7 +174,7 @@ function addBubble(text, sender) {
     const chatArea = document.getElementById('chatArea');
     const div = document.createElement('div');
     div.className = `message ${sender}`;
-    const formattedText = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    const formattedText = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
     if (sender === 'bot') {
         div.innerHTML = `<div class="avatar bot-avatar">K</div><div class="bubble">${formattedText}</div>`;
     } else {
@@ -305,37 +188,28 @@ async function sendMessage() {
     const input = document.getElementById('userInput');
     const text = input.value.trim();
     if (!text) return;
-
     const btn = document.getElementById('sendBtn');
     btn.disabled = true;
     input.value = '';
     input.style.height = 'auto';
-
     addBubble(text, 'user');
-    messages.push({ role: 'user', content: text });
-
+    messages.push({ role: 'user', parts: [{ text }] });
     document.getElementById('typing').classList.add('show');
     document.getElementById('chatArea').scrollTop = document.getElementById('chatArea').scrollHeight;
-
     try {
-        const response = await fetch('https://api.anthropic.com/v1/messages', {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                model: 'claude-sonnet-4-20250514',
-                max_tokens: 1000,
-                system: `Tu KUNAL AI hai — ek powerful, smart aur friendly AI assistant. Tu Hinglish mein baat karta hai (Hindi + English mix). Tu duniya ki har topic pe knowledge rakhta hai — science, history, technology, business, education, health, entertainment, sports, cooking, travel, sab kuch. Tu helpful, accurate aur detailed answers deta hai. Tu harmful, illegal, ya galat cheezein nahi batata. Tu emojis use karta hai. Tu Kunal Saraswat ka banaya hua AI hai jo Mathura, UP se hain.`,
-                messages: messages
+                system_instruction: { parts: [{ text: `Tu KUNAL AI hai — ek powerful, smart aur friendly AI assistant. Tu Hinglish mein baat karta hai (Hindi + English mix). Tu duniya ki har topic pe knowledge rakhta hai — science, history, technology, business, education, health, entertainment, sports, cooking, travel, sab kuch. Tu helpful, accurate aur detailed answers deta hai. Tu harmful, illegal, ya galat cheezein nahi batata. Tu emojis use karta hai. Tu Kunal Saraswat ka banaya hua AI hai jo Mathura, UP se hain.` }] },
+                contents: messages
             })
         });
-
         document.getElementById('typing').classList.remove('show');
         const data = await response.json();
-        const reply = data.content[0].text;
-        messages.push({ role: 'assistant', content: reply });
+        const reply = data.candidates[0].content.parts[0].text;
+        messages.push({ role: 'model', parts: [{ text: reply }] });
         addBubble(reply, 'bot');
-
-        // Save to history
         const title = text.length > 30 ? text.substring(0, 30) + '...' : text;
         if (currentChatId !== null) {
             chatHistory[currentChatId].messages = [...messages];
@@ -346,7 +220,6 @@ async function sendMessage() {
         }
         localStorage.setItem('kunalai_history', JSON.stringify(chatHistory));
         loadHistory();
-
     } catch (err) {
         document.getElementById('typing').classList.remove('show');
         addBubble('Kuch problem aa gayi! Thodi der baad try karo. 😅', 'bot');
@@ -358,19 +231,13 @@ function askQuestion(q) {
     document.getElementById('userInput').value = q;
     sendMessage();
 }
-
 function handleKey(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-    }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
 }
-
 function autoResize(el) {
     el.style.height = 'auto';
     el.style.height = el.scrollHeight + 'px';
 }
-
 loadHistory();
 </script>
 </body>
