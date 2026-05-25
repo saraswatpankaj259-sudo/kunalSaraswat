@@ -1,472 +1,158 @@
-cat > /mnt/user-data/outputs/jayram-travel.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jay Ram Singh Travel - Mathura Vrindavan Tours</title>
+    <title>Misty Tour And Travels | वृंदावन मथुरा यात्रा</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #050510; color: white; overflow-x: hidden; }
-        html { scroll-behavior: smooth; }
-
-        /* Header */
-        header {
-            position: fixed; top: 0; width: 100%; z-index: 1000;
-            background: rgba(5,5,16,0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255,165,0,0.15);
-            padding: 15px 5%;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .logo { font-size: 1.4rem; font-weight: 900; }
-        .logo span:first-child { color: #ff9500; }
-        .logo span:last-child { color: white; }
-        nav { display: flex; gap: 20px; }
-        nav a { color: #888; text-decoration: none; font-size: 0.88rem; transition: 0.3s; }
-        nav a:hover { color: #ff9500; }
-        .call-btn {
-            background: linear-gradient(135deg, #ff9500, #ff6b00);
-            color: white; padding: 8px 20px; border-radius: 25px;
-            font-weight: bold; font-size: 0.85rem; text-decoration: none;
-            box-shadow: 0 0 15px rgba(255,149,0,0.3);
-        }
-
-        /* Hero */
-        .hero {
-            min-height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)),
-                        url('https://images.unsplash.com/photo-1584649525122-8cf20f0e6bf1?w=1400') center/cover;
-            display: flex; align-items: center; justify-content: center;
-            text-align: center; padding: 120px 5% 80px;
-        }
-        .hero-badge {
-            display: inline-block;
-            background: rgba(255,149,0,0.15);
-            border: 1px solid rgba(255,149,0,0.4);
-            color: #ff9500; padding: 8px 20px; border-radius: 30px;
-            font-size: 0.85rem; margin-bottom: 25px;
-        }
-        .hero h1 { font-size: 3.5rem; font-weight: 900; line-height: 1.2; margin-bottom: 20px; }
-        .hero h1 .gold { color: #ff9500; }
-        .hero p { font-size: 1.1rem; color: #ccc; max-width: 600px; margin: 0 auto 40px; line-height: 1.7; }
-        .hero-btns { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
-        .btn-gold {
-            background: linear-gradient(135deg, #ff9500, #ff6b00);
-            color: white; padding: 16px 40px; border-radius: 50px;
-            font-weight: bold; font-size: 1rem; text-decoration: none;
-            box-shadow: 0 0 30px rgba(255,149,0,0.4); transition: 0.3s;
-        }
-        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 0 50px rgba(255,149,0,0.6); }
-        .btn-out {
-            background: transparent; color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 16px 40px; border-radius: 50px;
-            font-weight: bold; font-size: 1rem; text-decoration: none; transition: 0.3s;
-        }
-        .btn-out:hover { border-color: #ff9500; color: #ff9500; }
-
-        /* Stats */
-        .stats {
-            background: linear-gradient(135deg, rgba(255,149,0,0.08), rgba(255,107,0,0.05));
-            border-top: 1px solid rgba(255,149,0,0.1);
-            border-bottom: 1px solid rgba(255,149,0,0.1);
-            padding: 40px 5%;
-        }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto; text-align: center; }
-        .stat h3 { font-size: 2.5rem; font-weight: 900; color: #ff9500; }
-        .stat p { color: #666; font-size: 0.85rem; margin-top: 4px; }
-
-        /* Section Styles */
-        .section { padding: 80px 5%; }
-        .section-dark { padding: 80px 5%; background: rgba(255,255,255,0.02); }
-        .sec-title { text-align: center; margin-bottom: 55px; }
-        .sec-tag { color: #ff9500; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; display: block; margin-bottom: 10px; }
-        .sec-title h2 { font-size: 2.4rem; font-weight: 800; }
-        .sec-title p { color: #666; margin-top: 10px; }
-        .gold-line { width: 60px; height: 3px; background: linear-gradient(90deg, #ff9500, #ff6b00); margin: 15px auto 0; border-radius: 2px; }
-
-        /* Tour Packages */
-        .tours-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
-        .tour-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 24px; overflow: hidden; transition: 0.4s;
-            position: relative;
-        }
-        .tour-card::before {
-            content: ''; position: absolute; top: 0; left: 0;
-            width: 100%; height: 3px;
-            background: linear-gradient(90deg, #ff9500, #ff6b00);
-        }
-        .tour-card:hover { transform: translateY(-10px); border-color: rgba(255,149,0,0.3); box-shadow: 0 20px 50px rgba(255,149,0,0.1); }
-        .tour-img { height: 200px; overflow: hidden; }
-        .tour-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .tour-card:hover .tour-img img { transform: scale(1.08); }
-        .tour-body { padding: 25px; }
-        .tour-set { color: #ff9500; font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
-        .tour-body h3 { font-size: 1.3rem; color: white; margin-bottom: 12px; }
-        .tour-places { list-style: none; margin-bottom: 20px; }
-        .tour-places li { color: #888; font-size: 0.87rem; padding: 4px 0; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.04); }
-        .tour-places li::before { content: '🕌'; font-size: 0.8rem; }
-        .tour-btn {
-            width: 100%; padding: 12px; background: linear-gradient(135deg, #ff9500, #ff6b00);
-            color: white; border: none; border-radius: 12px;
-            font-weight: bold; font-size: 0.95rem; cursor: pointer; transition: 0.3s;
-        }
-        .tour-btn:hover { box-shadow: 0 5px 20px rgba(255,149,0,0.4); transform: scale(1.02); }
-
-        /* Features */
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-        .feature-card {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 20px; padding: 30px; text-align: center; transition: 0.3s;
-        }
-        .feature-card:hover { border-color: rgba(255,149,0,0.3); transform: translateY(-5px); }
-        .feature-icon { font-size: 2.5rem; margin-bottom: 15px; }
-        .feature-card h3 { color: white; margin-bottom: 8px; font-size: 1rem; }
-        .feature-card p { color: #555; font-size: 0.85rem; line-height: 1.6; }
-
-        /* Gallery */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        .gallery-img { border-radius: 15px; overflow: hidden; height: 200px; }
-        .gallery-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
-        .gallery-img:hover img { transform: scale(1.05); }
-
-        /* Reviews */
-        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .review-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 20px; padding: 25px; transition: 0.3s;
-        }
-        .review-card:hover { border-color: rgba(255,149,0,0.2); }
-        .stars { color: #ff9500; font-size: 1rem; margin-bottom: 12px; letter-spacing: 2px; }
-        .review-text { color: #888; font-size: 0.9rem; line-height: 1.7; margin-bottom: 18px; font-style: italic; }
-        .reviewer { display: flex; align-items: center; gap: 12px; }
-        .r-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #ff9500, #ff6b00); display: flex; align-items: center; justify-content: center; font-weight: bold; }
-        .reviewer h4 { color: white; font-size: 0.9rem; }
-        .reviewer span { color: #555; font-size: 0.8rem; }
-
-        /* Contact */
-        .contact-sec {
-            padding: 80px 5%; text-align: center;
-            background: radial-gradient(ellipse at center, rgba(255,149,0,0.05) 0%, transparent 70%);
-        }
-        .contact-sec h2 { font-size: 2.4rem; font-weight: 800; margin-bottom: 15px; }
-        .contact-sec > p { color: #666; margin-bottom: 50px; }
-        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 700px; margin: 0 auto 40px; }
-        .c-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 20px; padding: 25px; transition: 0.3s;
-        }
-        .c-card:hover { border-color: rgba(255,149,0,0.3); background: rgba(255,149,0,0.05); }
-        .c-icon { font-size: 2rem; margin-bottom: 10px; }
-        .c-card h4 { color: #ff9500; margin-bottom: 5px; font-size: 0.95rem; }
-        .c-card p { color: #666; font-size: 0.85rem; }
-        .contact-btns { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
-        .wa-btn {
-            background: linear-gradient(135deg, #25d366, #128c7e);
-            color: white; padding: 16px 40px; border-radius: 50px;
-            font-size: 1rem; font-weight: bold; text-decoration: none;
-            box-shadow: 0 0 25px rgba(37,211,102,0.3); transition: 0.3s;
-        }
-        .wa-btn:hover { transform: translateY(-3px); box-shadow: 0 0 40px rgba(37,211,102,0.5); }
-        .call-link {
-            background: linear-gradient(135deg, #ff9500, #ff6b00);
-            color: white; padding: 16px 40px; border-radius: 50px;
-            font-size: 1rem; font-weight: bold; text-decoration: none;
-            box-shadow: 0 0 25px rgba(255,149,0,0.3); transition: 0.3s;
-        }
-        .call-link:hover { transform: translateY(-3px); }
-
-        footer {
-            background: #020208;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding: 30px 5%; text-align: center; color: #333; font-size: 0.85rem;
-        }
-        footer span { color: #ff9500; }
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+        :root{--primary:#e65100;--secondary:#ff6f00;--accent:#ffd54f;--dark:#1a1a2e;--light:#fff8e1;--white:#ffffff}
+        html{scroll-behavior:smooth}
+        body{background-color:var(--light);color:var(--dark);line-height:1.6}
+        header{position:fixed;top:0;width:100%;background:linear-gradient(135deg,var(--primary),var(--secondary));padding:12px 5%;display:flex;justify-content:space-between;align-items:center;z-index:1000;box-shadow:0 2px 20px rgba(0,0,0,0.2)}
+        .logo{font-size:22px;font-weight:bold;color:white;text-shadow:2px 2px 4px rgba(0,0,0,0.3)}
+        nav ul{display:flex;list-style:none;gap:25px;flex-wrap:wrap}
+        nav ul li a{color:white;text-decoration:none;font-weight:600;font-size:15px;transition:all 0.3s;padding:5px 10px}
+        nav ul li a:hover{color:var(--accent);background:rgba(255,255,255,0.2);border-radius:5px}
+        .hero{height:100vh;background:linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)),url('https://images.unsplash.com/photo-1565514020176-db1f3d1fbf1d?w=1920') center/cover;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:white;padding:20px}
+        .hero h1{font-size:55px;margin-bottom:20px;text-shadow:3px 3px 6px rgba(0,0,0,0.5)}
+        .hero p{font-size:22px;margin-bottom:30px;max-width:700px}
+        .cta-button{padding:15px 45px;background:var(--primary);color:white;text-decoration:none;font-size:18px;font-weight:bold;border-radius:50px;transition:all 0.3s;border:none;cursor:pointer;display:inline-block}
+        .cta-button:hover{background:var(--secondary);transform:translateY(-3px);box-shadow:0 10px 25px rgba(0,0,0,0.3)}
+        .section{padding:80px 5%}
+        .section-title{text-align:center;font-size:38px;margin-bottom:50px;color:var(--primary);position:relative}
+        .section-title::after{content:'';display:block;width:80px;height:4px;background:var(--secondary);margin:15px auto 0;border-radius:2px}
+        .about{background:var(--white)}
+        .about-content{max-width:900px;margin:0 auto;text-align:center}
+        .about-content h2{font-size:30px;margin-bottom:20px;color:var(--primary)}
+        .about-content p{font-size:17px;line-height:1.9;margin-bottom:30px}
+        .owner-info{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;margin-top:30px}
+        .info-card{background:linear-gradient(135deg,var(--primary),var(--secondary));padding:25px 40px;border-radius:15px;color:white;text-align:center;min-width:200px}
+        .info-card h3{font-size:18px;margin-bottom:8px;opacity:0.9}
+        .info-card p{font-size:20px;font-weight:bold;margin:0}
+        .packages{background:#f5f5f5}
+        .package-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:30px;max-width:1400px;margin:0 auto}
+        .package-card{background:white;border-radius:20px;overflow:hidden;box-shadow:0 5px 25px rgba(0,0,0,0.1);transition:all 0.4s}
+        .package-card:hover{transform:translateY(-10px);box-shadow:0 20px 40px rgba(0,0,0,0.2)}
+        .package-header{background:linear-gradient(135deg,var(--primary),var(--secondary));padding:20px;color:white;text-align:center}
+        .package-header h3{font-size:22px;font-weight:bold}
+        .package-body{padding:25px}
+        .package-body ul{list-style:none}
+        .package-body ul li{padding:12px 0;border-bottom:1px solid #eee;display:flex;align-items:center;font-size:15px}
+        .package-body ul li::before{content:"🛕";margin-right:12px;font-size:18px}
+        .package-body ul li:last-child{border-bottom:none}
+        .features{background:linear-gradient(135deg,var(--dark),#2d2d5a);color:white}
+        .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;max-width:1200px;margin:0 auto}
+        .feature-card{text-align:center;padding:30px;background:rgba(255,255,255,0.05);border-radius:15px}
+        .feature-icon{font-size:50px;margin-bottom:15px}
+        .feature-card h3{font-size:20px;margin-bottom:10px;color:var(--accent)}
+        .contact{background:var(--white)}
+        .contact-form{max-width:600px;margin:0 auto}
+        .form-group{margin-bottom:20px}
+        .form-group label{display:block;margin-bottom:8px;font-weight:600;color:var(--dark)}
+        .form-group input,.form-group textarea,.form-group select{width:100%;padding:14px;border:2px solid #ddd;border-radius:10px;font-size:16px;transition:all 0.3s}
+        .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--primary);outline:none}
+        .submit-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;border:none;border-radius:10px;font-size:18px;font-weight:bold;cursor:pointer;transition:all 0.3s}
+        .submit-btn:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(230,81,0,0.4)}
+        .gallery{background:#f5f5f5}
+        .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;max-width:1200px;margin:0 auto}
+        .gallery-item{height:180px;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:15px;display:flex;justify-content:center;align-items:center;color:white;font-size:16px;font-weight:bold;text-align:center;padding:15px}
+        footer{background:var(--dark);color:white;padding:50px 5% 20px}
+        .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:40px;max-width:1200px;margin:0 auto 30px}
+        .footer-section h3{font-size:20px;margin-bottom:20px;color:var(--accent)}
+        .footer-section p,.footer-section li{line-height:1.8;font-size:15px}
+        .footer-section ul{list-style:none}
+        .footer-section ul li a{color:white;text-decoration:none;transition:all 0.3s}
+        .footer-section ul li a:hover{color:var(--primary)}
+        .footer-bottom{text-align:center;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);font-size:14px}
+        .whatsapp-float{position:fixed;bottom:25px;right:25px;background:#25d366;color:white;width:60px;height:60px;border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:32px;text-decoration:none;box-shadow:0 5px 20px rgba(0,0,0,0.3);z-index:1000;transition:all 0.3s}
+        .whatsapp-float:hover{transform:scale(1.1)}
+        .call-float{position:fixed;bottom:100px;right:25px;background:var(--primary);color:white;width:60px;height:60px;border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:28px;text-decoration:none;box-shadow:0 5px 20px rgba(0,0,0,0.3);z-index:1000;transition:all 0.3s}
+        .call-float:hover{transform:scale(1.1)}
+        @media(max-width:768px){header{padding:12px 20px}.logo{font-size:18px}nav{display:none}.hero h1{font-size:32px}.hero p{font-size:17px}.section-title{font-size:28px}.package-grid{grid-template-columns:1fr}.info-card{width:100%}}
     </style>
 </head>
 <body>
-
-<!-- Header -->
-<header>
-    <div class="logo"><span>Jay Ram Singh</span> <span>Travel</span></div>
-    <nav>
-        <a href="#tours">Tours</a>
-        <a href="#features">Features</a>
-        <a href="#reviews">Reviews</a>
-        <a href="#contact">Contact</a>
-    </nav>
-    <a href="https://wa.me/918171528602" class="call-btn">📞 Book Now</a>
-</header>
-
-<!-- Hero -->
-<section class="hero">
-    <div>
-        <div class="hero-badge">🙏 Trusted Travel Partner — Mathura & Vrindavan</div>
-        <h1>Divya <span class="gold">Tirth Yatra</span><br>Ka Anubhav Lo</h1>
-        <p>Mathura, Vrindavan, Braj, Rajasthan — har tirth sthal ki yatra hamare saath karo. Safe, Comfortable & Affordable!</p>
-        <div class="hero-btns">
-            <a href="#tours" class="btn-gold">🕌 Tours Dekho</a>
-            <a href="#contact" class="btn-out">📲 Contact Karo</a>
-        </div>
-    </div>
-</section>
-
-<!-- Stats -->
-<div class="stats">
-    <div class="stats-grid">
-        <div class="stat"><h3>500+</h3><p>Happy Yatris</p></div>
-        <div class="stat"><h3>6+</h3><p>Tour Sets</p></div>
-        <div class="stat"><h3>30+</h3><p>Destinations</p></div>
-        <div class="stat"><h3>100%</h3><p>Safe Journey</p></div>
-        <div class="stat"><h3>24/7</h3><p>Support</p></div>
-    </div>
-</div>
-
-<!-- Tours -->
-<section class="section" id="tours">
-    <div class="sec-title">
-        <span class="sec-tag">— Our Tour Packages —</span>
-        <h2>Hamari Yatra Sets</h2>
-        <p>Chuno apni manpasand yatra — poori suvidha ke saath</p>
-        <div class="gold-line"></div>
-    </div>
-    <div class="tours-grid">
-
-        <div class="tour-card">
-            <div class="tour-img"><img src="https://images.unsplash.com/photo-1609766418204-94a4b85fea3e?w=600" alt="Vrindavan"></div>
-            <div class="tour-body">
-                <p class="tour-set">SET 1</p>
-                <h3>🌸 Vrindavan Darshan</h3>
-                <ul class="tour-places">
-                    <li>Banke Bihari Mandir</li>
-                    <li>Radha Vallabh Mandir</li>
-                    <li>Prem Mandir</li>
-                    <li>ISKCON Mandir</li>
-                    <li>Shri Bageshwar Mandir</li>
-                    <li>Pagal Baba Mandir</li>
-                    <li>Ranganath Ji Mandir</li>
-                    <li>Nidhivan Mandir</li>
-                </ul>
-                <button class="tour-btn" onclick="window.open('https://wa.me/918171528602?text=Hello! Mujhe Vrindavan Set 1 tour book karna hai')">📞 Book Karo</button>
+    <header>
+        <div class="logo">✈️ Misty Tour And Travels</div>
+        <nav>
+            <ul>
+                <li><a href="#home">होम</a></li>
+                <li><a href="#about">जानकारी</a></li>
+                <li><a href="#packages">पैकेज</a></li>
+                <li><a href="#features">सुविधाएं</a></li>
+                <li><a href="#contact">संपर्क</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section id="home" class="hero">
+        <h1>Misty Tour And Travels</h1>
+        <p>आपकी यात्रा, हमारी जिम्मेदारी<br>वृंदावन • मथुरा • बरसाना • नंदगांव • राजस्थान</p>
+        <a href="#packages" class="cta-button">पैकेज देखें</a>
+    </section>
+    <section id="about" class="section about">
+        <h2 class="section-title">हमारे बारे में</h2>
+        <div class="about-content">
+            <h2>🙏 नमस्कार दोस्तों!</h2>
+            <p>Misty Tour And Travels में आपका स्वागत है। हम विशेषज्ञता से <strong>वृंदावन, मथुरा, बरसाना, नंदगांव</strong> और <strong>राजस्थान के चारधाम</strong> यात्रा का आयोजन करते हैं। हमारे साथ अनुभव करें पवित्र बिरला मंदिर, राधा मंदिर, प्रेम मंदिर, इस्कॉन मंदिर और अनेक पवित्र स्थलों का दर्शन।</p>
+            <p>हमारी टीम आपको बेहतरीन सेवा और अनुबंधित यात्रा प्रदान करती है।</p>
+            <div class="owner-info">
+                <div class="info-card">
+                    <h3>👤 मालिक</h3>
+                    <p>जय राम सिंह</p>
+                </div>
+                <div class="info-card">
+                    <h3>📱 फोन / व्हाट्सएप</h3>
+                    <p>8171528602</p>
+                </div>
             </div>
         </div>
-
-        <div class="tour-card">
-            <div class="tour-img"><img src="https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?w=600" alt="Mathura"></div>
-            <div class="tour-body">
-                <p class="tour-set">SET 2</p>
-                <h3>🙏 Mathura Darshan</h3>
-                <ul class="tour-places">
-                    <li>Shri Krishna Janmabhoomi</li>
-                    <li>Shri Dwarkadhish Mandir</li>
-                    <li>Birla Mandir</li>
-                    <li>Gokul</li>
-                    <li>Chhappan Bhog Mandir</li>
-                    <li>Chaurasi Khamba</li>
-                    <li>Dauji Ghat</li>
-                    <li>Gokulnath Mahadev</li>
-                </ul>
-                <button class="tour-btn" onclick="window.open('https://wa.me/918171528602?text=Hello! Mujhe Mathura Set 2 tour book karna hai')">📞 Book Karo</button>
+    </section>
+    <section id="packages" class="section packages">
+        <h2 class="section-title">🌐 हमारे टूर पैकेज</h2>
+        <div class="package-grid">
+            <div class="package-card">
+                <div class="package-header"><h3>सैट 1 - वृंदावन दर्शन</h3></div>
+                <div class="package-body">
+                    <ul><li>बांके बिहारी मंदिर</li><li>राधावल्लभ मंदिर</li><li>प्रेम मंदिर</li><li>इस्कॉन मंदिर</li><li>श्री बागेश्वर मंदिर</li><li>पागल बाबा मंदिर</li><li>रंगनाथ जी मंदिर</li><li>निधिवन मंदिर</li></ul>
+                </div>
+            </div>
+            <div class="package-card">
+                <div class="package-header"><h3>सैट 2 - मथुरा दर्शन</h3></div>
+                <div class="package-body">
+                    <ul><li>श्रीकृष्ण जन्मभूमि</li><li>श्री द्वारकाधीश मंदिर</li><li>बिरला मंदिर</li><li>गोकुल</li><li>छप्पन भोग मंदिर</li><li>चौरासी खंभा</li><li>दाऊजी घाट</li><li>गोकुलनाथ महादेव</li></ul>
+                </div>
+            </div>
+            <div class="package-card">
+                <div class="package-header"><h3>सैट 3 - बरसाना नंदगांव</h3></div>
+                <div class="package-body">
+                    <ul><li>नंदगांव</li><li>बरसाना</li><li>गोवर्धन</li></ul>
+                </div>
+            </div>
+            <div class="package-card">
+                <div class="package-header"><h3>सैट 4 - राधाकुंड</h3></div>
+                <div class="package-body">
+                    <ul><li>आगवान</li><li>राधाकुंड</li><li>कुसुम सरोवर</li><li>कालीदह</li></ul>
+                </div>
+            </div>
+            <div class="package-card">
+                <div class="package-header"><h3>सैट 5 - विशेष दर्शन</h3></div>
+                <div class="package-body">
+                    <ul><li>वृंदावन</li><li>नंदगांव</li><li>कुरुक्षेत्र</li><li>रावल गांव</li><li>मदन टेकरी</li></ul>
+                </div>
+            </div>
+            <div class="package-card">
+                <div class="package-header"><h3>सैट 6 - राजस्थान चारधाम</h3></div>
+                <div class="package-body">
+                    <ul><li>खाटूश्याम जी</li><li>सांवलिया सेठ</li><li>सीताराम जी मंदिर</li><li>करणी माता मंदिर</li><li>पदमिनी</li></ul>
+                </div>
             </div>
         </div>
-
-        <div class="tour-card">
-            <div class="tour-img"><img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=600" alt="Braj"></div>
-            <div class="tour-body">
-                <p class="tour-set">SET 3</p>
-                <h3>🌿 Braj Yatra</h3>
-                <ul class="tour-places">
-                    <li>Nandgaon</li>
-                    <li>Barsana</li>
-                    <li>Govardhan</li>
-                </ul>
-                <button class="tour-btn" onclick="window.open('https://wa.me/918171528602?text=Hello! Mujhe Braj Set 3 tour book karna hai')">📞 Book Karo</button>
-            </div>
-        </div>
-
-        <div class="tour-card">
-            <div class="tour-img"><img src="https://images.unsplash.com/photo-1551009175-15bda232d7af?w=600" alt="Radhakund"></div>
-            <div class="tour-body">
-                <p class="tour-set">SET 4</p>
-                <h3>💧 Tirth Sarovar</h3>
-                <ul class="tour-places">
-                    <li>Aagwan</li>
-                    <li>Radhakund</li>
-                    <li>Kusum Sarovar</li>
-                    <li>Kaliyadah</li>
-                </ul>
-                <button class="tour-btn" onclick="window.open('https://wa.me/918171528602?text=Hello! Mujhe Set 4 tour book karna hai')">📞 Book Karo</button>
-            </div>
-        </div>
-
-        <div class="tour-card">
-            <div class="tour-img"><img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?w=600" alt="Kurukshetra"></div>
-            <div class="tour-body">
-                <p class="tour-set">SET 5</p>
-                <h3>🏛️ Vishesh Yatra</h3>
-                <ul class="tour-places">
-                    <li>Vrindavan</li>
-                    <li>Nandgaon</li>
-                    <li>Kurukshetra</li>
-                    <li>Rawal Gaon</li>
-                    <li>Madan Tekri</li>
-                </ul>
-                <button class="tour-btn" onclick="window.open('https://wa.me/918171528602?text=Hello! Mujhe Set 5 tour book karna hai')">📞 Book Karo</button>
-            </div>
-        </div>
-
-        <div class="tour-card">
-            <div class="tour-img"><img src="https://images.unsplash.com/photo-1547483238-f400e65ccd56?w=600" alt="Rajasthan"></div>
-            <div class="tour-body">
-                <p class="tour-set">SET 6 — RAJASTHAN CHARDHAM</p>
-                <h3>🏔️ Rajasthan Chardham</h3>
-                <ul class="tour-places">
-                    <li>Khatu Shyam Ji</li>
-                    <li>Sanwaliya Seth</li>
-                    <li>Sitaram Ji Mandir</li>
-                    <li>Karni Mata Mandir</li>
-                    <li>Padmini</li>
-                </ul>
-                <button class="tour-btn" onclick="window.open('https://wa.me/918171528602?text=Hello! Mujhe Rajasthan Chardham Set 6 tour book karna hai')">📞 Book Karo</button>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-<!-- Features -->
-<section class="section-dark" id="features">
-    <div class="sec-title">
-        <span class="sec-tag">— Why Choose Us —</span>
-        <h2>Hum Kyun Khaas Hain?</h2>
-        <p>Hamare saath yatra karo — poora sukoon pao</p>
-        <div class="gold-line"></div>
-    </div>
-    <div class="features-grid">
-        <div class="feature-card">
-            <div class="feature-icon">🚌</div>
-            <h3>AC Vehicle</h3>
-            <p>Aaram deh AC gaadi mein travel karo — poora sukoon</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">🛡️</div>
-            <h3>100% Safe</h3>
-            <p>Experienced driver aur safe journey — koi chinta nahi</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">💰</div>
-            <h3>Best Price</h3>
-            <p>Sabse sasti yatra — koi hidden charges nahi</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">🙏</div>
-            <h3>Pooja Samagri</h3>
-            <p>Darshan ke liye poori samagri available</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">📍</div>
-            <h3>Local Guide</h3>
-            <p>Har jagah ki poori jankari dene wala guide</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">📞</div>
-            <h3>24/7 Support</h3>
-            <p>Kabhi bhi call karo — hum hamesha available hain</p>
-        </div>
-    </div>
-</section>
-
-<!-- Gallery -->
-<section class="section">
-    <div class="sec-title">
-        <span class="sec-tag">— Photo Gallery —</span>
-        <h2>Yatra Ki Jhalak</h2>
-        <div class="gold-line"></div>
-    </div>
-    <div class="gallery-grid">
-        <div class="gallery-img"><img src="https://images.unsplash.com/photo-1609766418204-94a4b85fea3e?w=500" alt="temple"></div>
-        <div class="gallery-img"><img src="https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?w=500" alt="mathura"></div>
-        <div class="gallery-img"><img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=500" alt="braj"></div>
-        <div class="gallery-img"><img src="https://images.unsplash.com/photo-1547483238-f400e65ccd56?w=500" alt="rajasthan"></div>
-        <div class="gallery-img"><img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?w=500" alt="temple2"></div>
-        <div class="gallery-img"><img src="https://images.unsplash.com/photo-1551009175-15bda232d7af?w=500" alt="yatra"></div>
-    </div>
-</section>
-
-<!-- Reviews -->
-<section class="section-dark" id="reviews">
-    <div class="sec-title">
-        <span class="sec-tag">— Yatri Reviews —</span>
-        <h2>500+ Khush Yatri</h2>
-        <p>Unke anubhav ki baatein</p>
-        <div class="gold-line"></div>
-    </div>
-    <div class="reviews-grid">
-        <div class="review-card">
-            <div class="stars">★★★★★</div>
-            <p class="review-text">"Jay Ram Singh ji ke saath Vrindavan yatra bahut hi achhi rahi. Sabhi mandiron ke darshan ho gaye. Bahut hi acha anubhav!"</p>
-            <div class="reviewer">
-                <div class="r-avatar">S</div>
-                <div><h4>Suresh Gupta</h4><span>Delhi se aaye</span></div>
-            </div>
-        </div>
-        <div class="review-card">
-            <div class="stars">★★★★★</div>
-            <p class="review-text">"Rajasthan Chardham yatra ke liye best tour operator! Sab kuch bahut organized tha. Driver bahut achha tha!"</p>
-            <div class="reviewer">
-                <div class="r-avatar">M</div>
-                <div><h4>Meena Devi</h4><span>Agra se aaye</span></div>
-            </div>
-        </div>
-        <div class="review-card">
-            <div class="stars">★★★★★</div>
-            <p class="review-text">"Price bahut reasonable hai aur service top class! Mathura Vrindavan ke saare mandir ek din mein kar diye. Bahut shukriya!"</p>
-            <div class="reviewer">
-                <div class="r-avatar">R</div>
-                <div><h4>Ramesh Sharma</h4><span>Jaipur se aaye</span></div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Contact -->
-<section class="contact-sec" id="contact">
-    <h2>📞 Yatra Book Karo!</h2>
-    <p>Abhi contact karo — free consultation aur best price guarantee!</p>
-    <div class="contact-grid">
-        <div class="c-card">
-            <div class="c-icon">👨</div>
-            <h4>Jay Ram Singh</h4>
-            <p>Owner & Tour Guide</p>
-        </div>
-        <div class="c-card">
-            <div class="c-icon">💬</div>
-            <h4>WhatsApp</h4>
-            <p>Seedha message karo</p>
-        </div>
-        <div class="c-card">
-            <div class="c-icon">📍</div>
-            <h4>Location</h4>
-            <p>Mathura, UP</p>
-        </div>
-    </div>
-    <div class="contact-btns">
-        <a href="https://wa.me/918171528602?text=Hello Jay Ram Singh Ji! Mujhe yatra book karni hai" class="wa-btn">💬 WhatsApp Pe Book Karo</a>
-        <a href="tel:+918171528602" class="call-link">📞 Call Karo</a>
-    </div>
-</section>
-
-<footer>
-    <p>© 2024 <span>Jay Ram Singh Travel</span> | Mathura, UP | Designed by Kunal Saraswat Web</p>
-</footer>
-
-</body>
-</html>
-HTMLEOF
-echo "Done"
+    </section>
+    <section id="features" class="section features">
+        <h2 class="section-title">⭐ क्यों चुनें हमें</h2>
+        <div class="features-grid">
+            <div class="feature-card"><div class="feature-icon">🚐</div><h3>एसी वाहन</h3><p>बेहतरीन एसी वाहनों से यात्रा</p></div>
+            <div class="feature-card"><div class="feature-icon">🏨</div><h3>होटल बुकिंग</h3><p>बेस्ट होटल और धार्मिक आश्रम</p></div>
+            <div class="feature-card"><div class="feature-icon">🍽️</div><h3>भोजन</h3><p>शुद्ध शाकाहारी भोजन</p></div>
+            <div class="feature-card"><div class="feature-icon">🎯</div><h3>पर्य
